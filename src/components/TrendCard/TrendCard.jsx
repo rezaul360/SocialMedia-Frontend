@@ -14,7 +14,6 @@ const TrendCard = () => {
           </div>
         );
       })}
-      <button className="Button r-button">Share</button>
     </div>
   );
 };

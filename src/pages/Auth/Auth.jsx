@@ -40,10 +40,11 @@ function Login() {
           <span style={{ fontSize: "12px" }}>
             Don't have an account Sign up
           </span>
+
+          <button className="Button infoButton" type="submit">
+            Login
+          </button>
         </div>
-        <button className="Button infoButton" type="submit">
-          Login
-        </button>
       </form>
     </div>
   );

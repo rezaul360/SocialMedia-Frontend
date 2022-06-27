@@ -2,6 +2,7 @@ import React from "react";
 import Cover from "../../img/cover.jpg";
 import Profile from "../../img/profileImg.jpg";
 import "./ProfileCard.css";
+import { Link } from "react-router-dom";
 
 const ProfileCard = () => {
   const ProfilePage = true;
@@ -13,7 +14,9 @@ const ProfileCard = () => {
       </div>
       ,
       <div className="ProfileName">
-        <span>Rezaul Karim</span>
+        <span>
+          <Link to="/profile">Rezaul Karim</Link>
+        </span>
         <span>Mern Stack Web Developer</span>
       </div>
       <div className="followStatus">
