@@ -1,9 +1,51 @@
 import React from "react";
 import "./Auth.css";
 import Logo from "../../img/logo.png";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, signUp } from "../../actions/AuthActio";
 const Auth = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.authReducer.loading);
+  const [isSignUp, setIsSignUp] = useState(true);
+  console.log(loading);
+  const [data, setData] = useState({
+    firstname: "",
+    lastname: "",
+    password: "",
+    confirmpass: "",
+    username: "",
+  });
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const [confirmPass, setConfirmPass] = useState(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (isSignUp) {
+      data.password === data.confirmpass
+        ? dispatch(signUp(data))
+        : setConfirmPass(false);
+    } else {
+      dispatch(logIn(data));
+    }
+  };
+
+  const resetForm = () => {
+    setConfirmPass(true);
+    setData({
+      firstname: "",
+      lastname: "",
+      password: "",
+      confirmpass: "",
+      username: "",
+    });
+  };
+
   return (
     <div className="Auth">
+      {/* Left side */}
       <div className="a-left">
         <img src={Logo} alt="" />
         <div className="webname">
@@ -11,96 +53,96 @@ const Auth = () => {
           <h6>Explore the ideas throughout the world</h6>
         </div>
       </div>
-      <Login />
+      {/* Right side */}
+      <div className="a-right">
+        <form action="" className="InfoForm AuthForm" onSubmit={handleSubmit}>
+          <h3>{isSignUp ? "Sign up" : "Log In"}</h3>
+          {isSignUp && (
+            <div>
+              <input
+                type="text"
+                placeholder="First Name"
+                className="InfoInput"
+                name="firstname"
+                onChange={handleChange}
+                value={data.firstname}
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="InfoInput"
+                name="lastname"
+                onChange={handleChange}
+                value={data.lastname}
+              />
+            </div>
+          )}
+          <div>
+            <input
+              type="text"
+              className="InfoInput"
+              name="username"
+              placeholder="Username"
+              onChange={handleChange}
+              value={data.username}
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              className="InfoInput"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              value={data.password}
+            />
+
+            {isSignUp && (
+              <input
+                type="password"
+                className="InfoInput"
+                name="confirmpass"
+                placeholder="Confirm Password"
+                onChange={handleChange}
+                value={data.confirmpass}
+              />
+            )}
+          </div>
+          <span
+            style={{
+              display: confirmPass ? "none" : "block",
+              color: "red",
+              fontSize: "12px",
+              alignSelf: "flex-end",
+              marginRight: "5px",
+            }}
+          >
+            * Confirm Password is not same
+          </span>
+          <div>
+            <span
+              style={{ fontSize: "12px", cursor: "pointer" }}
+              onClick={() => {
+                setIsSignUp((prev) => !prev);
+                resetForm();
+              }}
+            >
+              {isSignUp
+                ? "Already have an account. Log In!"
+                : "Don't have an account? Sign Up"}
+            </span>
+          </div>
+          <button
+            className="Button infoButton"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : isSignUp ? "Sign Up" : "Log In"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
-function Login() {
-  return (
-    <div className="a-right">
-      <form action="" className="InfoForm AuthForm">
-        <h3>Login</h3>
-        <div>
-          <input
-            type="text"
-            className="InfoInput"
-            name="username"
-            placeholder="Username"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            className="InfoInput"
-            name="password"
-            placeholder="Password"
-          />
-        </div>
-        <div>
-          <span style={{ fontSize: "12px" }}>
-            Don't have an account Sign up
-          </span>
-
-          <button className="Button infoButton" type="submit">
-            Login
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-function Signup() {
-  return (
-    <div className="a-right">
-      <form action="" className="InfoForm AuthForm">
-        <h3>Sign up</h3>
-        <div>
-          <input
-            type="text"
-            placeholder="First Name"
-            className="InfoInput"
-            name="firstname"
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="InfoInput"
-            name="lastname"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            className="InfoInput"
-            name="username"
-            placeholder="Username"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            className="InfoInput"
-            name="password"
-            placeholder="Password"
-          />
-          <input
-            type="text"
-            className="InfoInput"
-            name="confirmpass"
-            placeholder="Confirm Password"
-          />
-        </div>
-        <div>
-          <span style={{ fontSize: "12px" }}>
-            Already have an account. Login!
-          </span>
-        </div>
-        <button className="Button infoButton" type="submit">
-          Signup
-        </button>
-      </form>
-    </div>
-  );
-}
 
 export default Auth;

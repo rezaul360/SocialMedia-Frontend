@@ -16,8 +16,4 @@
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  cursor: pointer;
-}
-.ditails > span > b {
-  cursor: pointer;
 }
